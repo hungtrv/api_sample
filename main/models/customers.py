@@ -6,6 +6,7 @@ class Customer(db.Model):
 	__tablename__ = "customers"
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(64), index=True)
+	orders = db.relationship('Order', backref='customer', lazy='dynamic')
 
 	def get_url(self):
 		return url_for('get_customer', id=self.id, _external=True)
@@ -13,7 +14,8 @@ class Customer(db.Model):
 	def export_data(self):
 		return {
 			'self_url': self.get_url(),
-			'name': self.name
+			'name': self.name,
+			'orders_url': url_for('get_customer_orders', id=self.id, _external=True)
 		}
 
 	def import_data(self, data):

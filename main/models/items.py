@@ -20,7 +20,7 @@ class Item(db.Model):
 	def export_data(self):
 		return {
 			'self_url': self.get_url(),
-			'order_url': self.order.get_url(), # Double check also on the naming conversion and relationship order_id --> order property in items
+			'order_url': self.order.get_url(),
 			'product_url': self.product.get_url(),
 			'quantity': self.quantity
 		}

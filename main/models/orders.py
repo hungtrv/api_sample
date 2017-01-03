@@ -30,7 +30,7 @@ class Order(db.Model):
 
 	def import_data(self, data):
 		try:
-			self.data = datetime_parser.parse(data['date']).astimezone(tzutc()).replace(tzinfo=None)
+			self.date = datetime_parser.parse(data['date']).astimezone(tzutc()).replace(tzinfo=None)
 		except KeyError as e:
 			raise ValidationError('Invalid order: missing ' + e.args[0])
 
