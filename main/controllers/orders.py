@@ -1,3 +1,6 @@
+"""
+	This module contains enpoints to handle ORDERS resource
+"""
 from main import app
 from main import db
 from main.models.orders import Order
@@ -60,6 +63,8 @@ def get_customer_orders(id):
 def add_customer_order(id):
 	"""
 		Add a new order to a specific customer identify by customer id
+		Input paramerter:
+		- date: ISO format, for example 2017-01-01T11:59:59Z
 	"""
 	customer = Customer.query.get_or_404(id)
 	order = Order(customer=customer)
