@@ -5,6 +5,7 @@ db_dir = os.path.join(base_dir, '../db/api_db.sqlite')
 
 class _Config(object):
 	SQLALCHEMY_DATABASE_URI = "sqlite:///" + db_dir
+	SECRET_KEY = "CaptainGutt!"
 
 
 class _DevelopmentConfig(_Config):
