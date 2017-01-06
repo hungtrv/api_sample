@@ -15,7 +15,7 @@ class Item(db.Model):
 	quantity = db.Column(db.Integer)
 
 	def get_url(self):
-		return url_for('get_item', id=self.id, _external=True)
+		return url_for('api.get_item', id=self.id, _external=True)
 
 	def export_data(self):
 		return {

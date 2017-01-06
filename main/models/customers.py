@@ -9,13 +9,13 @@ class Customer(db.Model):
 	orders = db.relationship('Order', backref='customer', lazy='dynamic')
 
 	def get_url(self):
-		return url_for('get_customer', id=self.id, _external=True)
+		return url_for('api.get_customer', id=self.id, _external=True)
 
 	def export_data(self):
 		return {
 			'self_url': self.get_url(),
 			'name': self.name,
-			'orders_url': url_for('get_customer_orders', id=self.id, _external=True)
+			'orders_url': url_for('api.get_customer_orders', id=self.id, _external=True)
 		}
 
 	def import_data(self, data):

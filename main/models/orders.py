@@ -17,14 +17,14 @@ class Order(db.Model):
 	items = db.relationship('Item', backref='order', lazy='dynamic', cascade='all, delete-orphan')
 
 	def get_url(self):
-		return url_for('get_order', id=self.id, _external=True)
+		return url_for('api.get_order', id=self.id, _external=True)
 
 	def export_data(self):
 		return {
 			'self_url': self.get_url(),
 			'customer_url': self.customer.get_url(),
 			'date': self.date.isoformat() + 'Z',
-			'items_url': url_for('get_order_items', id=self.id, _external=True)
+			'items_url': url_for('api.get_order_items', id=self.id, _external=True)
 
 		}
 

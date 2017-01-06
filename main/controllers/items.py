@@ -1,7 +1,7 @@
 """
 	This module contains enpoints to handle ITEMS resource
 """
-from main import app
+from main import api
 from main import db
 from main.models.orders import Order
 from main.models.items import Item
@@ -10,7 +10,7 @@ from flask import jsonify
 from flask import request
 
 
-@app.route('/items/<int:id>', methods=['GET'])
+@api.route('/items/<int:id>', methods=['GET'])
 def get_item(id):
 	"""
 		Get detail info for a specific item identified by item id
@@ -20,7 +20,7 @@ def get_item(id):
 	
 
 
-@app.route('/orders/<int:id>/items/', methods=['GET'])
+@api.route('/orders/<int:id>/items/', methods=['GET'])
 def get_order_items(id):
 	""""
 		Get list of all items of a specific order identified by order id
@@ -30,7 +30,7 @@ def get_order_items(id):
 	return jsonify({'items': [item.get_url() for item in order.items.all()]})
 
 
-@app.route('/orders/<int:id>/items/', methods=['POST'])
+@api.route('/orders/<int:id>/items/', methods=['POST'])
 def add_new_order_item(id):
 	"""
 		Add an item to a specific order identified by order id.
@@ -47,7 +47,7 @@ def add_new_order_item(id):
 	return jsonify({}), 201, {'Location': item.get_url()}
 
 
-@app.route('/items/<int:id>', methods=['PUT'])
+@api.route('/items/<int:id>', methods=['PUT'])
 def edit_item(id):
 	"""
 		Edit a specific item identified by item id
@@ -64,7 +64,7 @@ def edit_item(id):
 	return jsonify({})
 
 
-@app.route('/items/<int:id>', methods=['DELETE'])
+@api.route('/items/<int:id>', methods=['DELETE'])
 def delete_item(id):
 	"""
 		Delete a specific item identified by item id

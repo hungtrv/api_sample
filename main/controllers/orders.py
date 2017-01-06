@@ -1,7 +1,7 @@
 """
 	This module contains enpoints to handle ORDERS resource
 """
-from main import app
+from main import api
 from main import db
 from main.models.orders import Order
 from main.models.customers import Customer
@@ -9,7 +9,7 @@ from main.models.customers import Customer
 from flask import jsonify
 from flask import request
 
-@app.route('/orders/', methods=['GET'])
+@api.route('/orders/', methods=['GET'])
 def get_orders():
 	"""
 		Get list of all the orders
@@ -17,7 +17,7 @@ def get_orders():
 	return jsonify({'orders': [order.get_url() for order in Order.query.all()]})
 
 
-@app.route('/orders/<int:id>', methods=['GET'])
+@api.route('/orders/<int:id>', methods=['GET'])
 def get_order(id):
 	"""
 		Get information of a specific order
@@ -25,7 +25,7 @@ def get_order(id):
 	return jsonify(Order.query.get_or_404(id).export_data())
 
 
-@app.route('/orders/<int:id>', methods=['PUT'])
+@api.route('/orders/<int:id>', methods=['PUT'])
 def edit_order(id):
 	"""
 		Edit a specific order identified by order id
@@ -38,7 +38,7 @@ def edit_order(id):
 	return jsonify({})
 
 
-@app.route('/orders/<int:id>', methods=['DELETE'])
+@api.route('/orders/<int:id>', methods=['DELETE'])
 def delete_order(id):
 	"""
 		Delete a specific order identified by order id
@@ -50,7 +50,7 @@ def delete_order(id):
 	return jsonify({})
 
 
-@app.route('/customers/<int:id>/orders/', methods=['GET'])
+@api.route('/customers/<int:id>/orders/', methods=['GET'])
 def get_customer_orders(id):
 	"""
 		Get list of all the orders or a specific customer identified by customer id
@@ -59,7 +59,7 @@ def get_customer_orders(id):
 	return jsonify({'orders': [order.get_url() for order in customer.orders.all()]})
 
 
-@app.route('/customers/<int:id>/orders/', methods=['POST'])
+@api.route('/customers/<int:id>/orders/', methods=['POST'])
 def add_customer_order(id):
 	"""
 		Add a new order to a specific customer identify by customer id

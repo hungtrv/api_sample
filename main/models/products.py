@@ -9,7 +9,7 @@ class Product(db.Model):
 	items = db.relationship('Item', backref='product', lazy='dynamic')
 
 	def get_url(self):
-		return url_for('get_product', id=self.id, _external=True)
+		return url_for('api.get_product', id=self.id, _external=True)
 
 	def export_data(self):
 		return {
