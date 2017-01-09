@@ -18,10 +18,23 @@ class TestAPI(unittest.TestCase):
 	default_password = '123456'
 
 	def setUp(self):
-		pass
+		self.app = app
+		self.ctx = self.app.app_context()
+		self.ctx.push()
+		db.drop_all()
+		db.create_all()
+		user = User(username=self.default_username)
+		user.set_password(self.default_password)
+		db.session.add(user)
+		db.session.commit()
+		self.client = TestClient(self.app, user.generate_auth_token(), '')
+
 
 	def tearDown(self):
-		pass
+		db.session.remove()
+		db.drop_all()
+		self.ctx.pop()
+
 
 	def test_customers(self):
 		pass
