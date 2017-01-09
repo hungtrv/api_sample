@@ -1,3 +1,7 @@
+import coverage
+COV = coverage.coverage(branch=True, include='main*')
+COV.start()
+
 import unittest
 import os
 import sys
@@ -64,4 +68,7 @@ class TestAPI(unittest.TestCase):
 
 
 if __name__ == "__main__":
-	print unittest.main()
+	suite = unittest.TestLoader().loadTestsFromTestCase(TestAPI)
+	unittest.TextTestRunner(verbosity=2).run(suite)
+	COV.stop()
+	COV.report()
