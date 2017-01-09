@@ -37,10 +37,30 @@ class TestAPI(unittest.TestCase):
 
 
 	def test_customers(self):
-		pass
+		# Get list of customers
+		rv, json = self.client.get('/customers/')
+		self.assertTrue(rv.status_code == 200)
+		self.assertTrue(json['customers'] == [])
 
+		# Add a new customer
+		customer_data = {'name': 'Hung Tran'}
+		rv, json = self.client.post('/customers/', data=customer_data)
+		self.assertTrue(rv.status_code == 201)
+		location = rv.headers['Location']
+		rv, json = self.client.get(location)
+		self.assertTrue(rv.status_code == 200)
+		self.assertTrue(json['name'] == customer_data['name'])
+		rv, json = self.client.get('/customers/')
+		self.assertTrue(rv.status_code == 200)
+		self.assertIn(location, json['customers'])
 
-
+		# Edit a customer
+		new_customer_data = {'name': 'Ha An'}
+		rv, json = self.client.put(location, data=new_customer_data)
+		self.assertTrue(rv.status_code == 200)
+		rv, json = self.client.get(location)
+		self.assertTrue(rv.status_code == 200)
+		self.assertTrue(json['name'] == new_customer_data['name'])
 
 
 if __name__ == "__main__":
