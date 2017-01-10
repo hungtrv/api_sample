@@ -67,6 +67,33 @@ class TestAPI(unittest.TestCase):
 		self.assertTrue(json['name'] == new_customer_data['name'])
 
 
+	def test_products(self):
+		# Get a list of products
+		rv, json = self.client.get('/products/')
+		self.assertTrue(rv.status_code == 200)
+		self.assertTrue(json['products'] == [])
+
+		# Add a new product
+		product_data = {'name': 'product_1'}
+		rv, json = self.client.post('/products/', data=product_data)
+		self.assertTrue(rv.status_code == 201)
+		location = rv.headers['Location']
+		rv, json = self.client.get(location)
+		self.assertTrue(rv.status_code == 200)
+		self.assertTrue(json['name'] == product_data['name'])
+		rv, json = self.client.get('/products/')
+		self.assertTrue(rv.status_code == 200)
+		self.assertIn(location, json['products'])
+
+		# Edit a product
+		new_product_data = {'name': 'iPhone 7'}
+		rv, json = self.client.put(location, data=new_product_data)
+		self.assertTrue(rv.status_code == 200)
+		rv, json = self.client.get(location)
+		self.assertTrue(rv.status_code == 200)
+		self.assertTrue(json['name'] == new_product_data['name'])
+
+
 if __name__ == "__main__":
 	suite = unittest.TestLoader().loadTestsFromTestCase(TestAPI)
 	unittest.TextTestRunner(verbosity=2).run(suite)
