@@ -32,7 +32,7 @@ class Item(db.Model):
 		except KeyError as e:
 			raise ValidationError('Invalid order: missing ' + e.args[0])
 
-		if endpoint != 'get_product' or not 'id' in args:
+		if endpoint != 'api.get_product' or not 'id' in args:
 			raise ValidationError('Invalid product URL: ' + data['product_url'])
 
 		self.product = Product.query.get(args['id'])

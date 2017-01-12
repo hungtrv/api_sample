@@ -47,5 +47,5 @@ class TestClient():
 	def put(self, url, data, headers={}):
 		return self.send(url, 'PUT', data, headers=headers)
 
-	def delete(self, url, data, headers={}):
-		return self.send(url, 'DELETE', data, headers=headers)
+	def delete(self, url, headers={}):
+		return self.send(url, 'DELETE', headers=headers)
