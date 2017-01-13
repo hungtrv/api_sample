@@ -1,7 +1,7 @@
 """
 	This module contains enpoints to handle CUSTOMERS resource
 """
-from main import api
+from . import api
 from main import db
 from main.models.customers import Customer
 

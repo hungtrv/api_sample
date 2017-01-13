@@ -12,7 +12,7 @@ app.config.from_object(config)
 app.logger.addHandler(logging.StreamHandler())
 app.logger.setLevel(logging.DEBUG)
 
-api = Blueprint('api', __name__)
+#api = Blueprint('api', __name__)
 
 db = SQLAlchemy(app)
 auth = HTTPBasicAuth()
@@ -30,4 +30,5 @@ def _register_subpackages():
 _register_subpackages()
 
 # Register blue print at last when all the code for blue print is imported
+from main.controllers.v1 import api
 app.register_blueprint(api, url_prefix='/v1')

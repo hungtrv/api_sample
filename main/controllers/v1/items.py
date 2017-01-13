@@ -1,7 +1,7 @@
 """
 	This module contains enpoints to handle ITEMS resource
 """
-from main import api
+from . import api
 from main import db
 from main.models.orders import Order
 from main.models.items import Item

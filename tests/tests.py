@@ -11,13 +11,14 @@ app_dir = os.path.abspath(os.path.join(current_dir, '../'))
 sys.path.insert(0, app_dir)
 
 os.environ['ENVIRONMENT'] = 'development'
-API_VERSION = '/v1'
 
 from main import app
 from main import db 
 from main.models.users import User
 
 from test_client import TestClient
+
+API_VERSION = '/v1'
 
 class TestAPI(unittest.TestCase):
 	default_username = 'hungtrv'

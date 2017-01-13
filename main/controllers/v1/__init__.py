@@ -5,3 +5,7 @@ __all__ = [
 	'items',
 	'products'
 ]
+
+from flask import Blueprint
+
+api = Blueprint('api', __name__)

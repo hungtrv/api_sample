@@ -8,7 +8,7 @@
 	http --auth auth_token: GET http://localhost:5000/customers/
 """
 from main import app
-from main import api
+from main.controllers.v1 import api
 from main import auth
 from main import auth_token
 
