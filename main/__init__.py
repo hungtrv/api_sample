@@ -20,13 +20,14 @@ auth_token = HTTPBasicAuth()
 
 CORS(app)
 
+
 def _register_subpackages():
     from main.models import *
-    from main.controllers import *
     from main.errors import *
     from main.auth import *
+    from main.controllers.v1 import *
 
 _register_subpackages()
 
 # Register blue print at last when all the code for blue print is imported
-app.register_blueprint(api)
+app.register_blueprint(api, url_prefix='/v1')

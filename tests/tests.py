@@ -143,7 +143,6 @@ class TestAPI(unittest.TestCase):
 		self.assertTrue(len(json['orders']) == 1)
 		self.assertTrue(order in json['orders'])
 
-
 		# Edit order
 		rv, json = self.client.put(order, data={'date': '2017-01-10T23:59:59Z'})
 		self.assertTrue(rv.status_code == 200)
