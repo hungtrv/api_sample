@@ -11,6 +11,7 @@ app_dir = os.path.abspath(os.path.join(current_dir, '../'))
 sys.path.insert(0, app_dir)
 
 os.environ['ENVIRONMENT'] = 'development'
+API_VERSION = '/v1'
 
 from main import app
 from main import db 
@@ -42,20 +43,21 @@ class TestAPI(unittest.TestCase):
 
 
 	def test_customers(self):
+		customers_endpoint = API_VERSION + '/customers/'
 		# Get list of customers
-		rv, json = self.client.get('/customers/')
+		rv, json = self.client.get(customers_endpoint)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(json['customers'] == [])
 
 		# Add a new customer
 		customer_data = {'name': 'Hung Tran'}
-		rv, json = self.client.post('/customers/', data=customer_data)
+		rv, json = self.client.post(customers_endpoint, data=customer_data)
 		self.assertTrue(rv.status_code == 201)
 		location = rv.headers['Location']
 		rv, json = self.client.get(location)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(json['name'] == customer_data['name'])
-		rv, json = self.client.get('/customers/')
+		rv, json = self.client.get(customers_endpoint)
 		self.assertTrue(rv.status_code == 200)
 		self.assertIn(location, json['customers'])
 
@@ -69,20 +71,21 @@ class TestAPI(unittest.TestCase):
 
 
 	def test_products(self):
+		products_endpoint = API_VERSION + '/products/'
 		# Get a list of products
-		rv, json = self.client.get('/products/')
+		rv, json = self.client.get(products_endpoint)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(json['products'] == [])
 
 		# Add a new product
 		product_data = {'name': 'product_1'}
-		rv, json = self.client.post('/products/', data=product_data)
+		rv, json = self.client.post(products_endpoint, data=product_data)
 		self.assertTrue(rv.status_code == 201)
 		location = rv.headers['Location']
 		rv, json = self.client.get(location)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(json['name'] == product_data['name'])
-		rv, json = self.client.get('/products/')
+		rv, json = self.client.get(products_endpoint)
 		self.assertTrue(rv.status_code == 200)
 		self.assertIn(location, json['products'])
 
@@ -98,8 +101,9 @@ class TestAPI(unittest.TestCase):
 
 	def test_orders_and_items(self):
 		# Add a new customer
+		customers_endpoint = API_VERSION + '/customers/'
 		customer_data = {'name': 'Hung Tran'}
-		rv, json = self.client.post('/customers/', data=customer_data)
+		rv, json = self.client.post(customers_endpoint, data=customer_data)
 		self.assertTrue(rv.status_code == 201)
 
 		customer = rv.headers['Location']
@@ -113,8 +117,9 @@ class TestAPI(unittest.TestCase):
 		self.assertTrue(json['orders'] == [])
 
 		# Add products to the db
+		products_endpoint = API_VERSION + '/products/'
 		product_1 = {'name': 'product 1'}
-		rv, json = self.client.post('/products/', data=product_1)
+		rv, json = self.client.post(products_endpoint, data=product_1)
 		self.assertTrue(rv.status_code == 201)
 		product_1_link = rv.headers['Location']
 		rv, json = self.client.get(product_1_link)
@@ -122,7 +127,7 @@ class TestAPI(unittest.TestCase):
 		self.assertTrue(json['name'] == product_1['name'])
 
 		product_2 = {'name': 'product 2'}
-		rv, json = self.client.post('/products/', data=product_2)
+		rv, json = self.client.post(products_endpoint, data=product_2)
 		self.assertTrue(rv.status_code == 201)
 		product_2_link = rv.headers['Location']
 		rv, json = self.client.get(product_2_link)
@@ -130,6 +135,7 @@ class TestAPI(unittest.TestCase):
 		self.assertTrue(json['name'] == product_2['name'])
 
 		# Create a new order
+		orders_endpoint = API_VERSION + '/orders/'
 		rv, json = self.client.post(orders_url, data={'date': '2017-01-10T00:00:00Z'})
 		self.assertTrue(rv.status_code == 201)
 		order = rv.headers['Location']
@@ -138,7 +144,7 @@ class TestAPI(unittest.TestCase):
 		rv, json = self.client.get(items_url)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(json['items'] == [])
-		rv, json = self.client.get('/orders/')
+		rv, json = self.client.get(orders_endpoint)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(len(json['orders']) == 1)
 		self.assertTrue(order in json['orders'])
@@ -198,7 +204,7 @@ class TestAPI(unittest.TestCase):
 		self.assertTrue(rv.status_code == 200)
 		with self.assertRaises(NotFound):
 			rv, json = self.client.get(item_2)
-		rv, json = self.client.get('/orders/')
+		rv, json = self.client.get(orders_endpoint)
 		self.assertTrue(rv.status_code == 200)
 		self.assertTrue(len(json['orders']) == 0)
 
