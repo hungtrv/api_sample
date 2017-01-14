@@ -2,6 +2,11 @@ import functools
 from flask import jsonify
 
 def json(f):
+	"""
+		Generate a JSON response for an endpoint
+		- Input: A dictionary [A HTTP Status Code] [A Dictionary of HTTP Headers]
+		- Output: JSON response
+	"""
 	@functools.wraps(f)
 	def wrapped(*args, **kwargs):
 		rv = f(*args, **kwargs)
