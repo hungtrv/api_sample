@@ -21,7 +21,7 @@ def paginate(collection, max_per_page=25):
 			per_page = min(request.args.get('per_page', max_per_page, type=int), max_per_page)
 
 			# Run query with pagination parameters
-			p = query.pagniate(page, per_page)
+			p = query.paginate(page, per_page)
 
 			# Pagination meta data to be included in the response
 			pages = {'page': page, 'per_page': per_page, 'total': p.total, 'pages': p.pages}
