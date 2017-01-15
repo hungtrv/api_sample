@@ -6,7 +6,7 @@ from main import db
 from main.models.orders import Order
 from main.models.items import Item
 
-from main.decorators.json import json
+from main.decorators import json
 from flask import request
 
 

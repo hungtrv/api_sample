@@ -5,7 +5,7 @@ from . import api
 from main import db
 from main.models.products import Product
 
-from main.decorators.json import json
+from main.decorators import json
 from flask import request
 
 
