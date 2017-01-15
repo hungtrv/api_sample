@@ -17,6 +17,9 @@ from main.models.users import User
 from flask import jsonify
 from flask import g
 
+from main.decorators import json
+from main.decorators import no_cache
+
 
 @auth.verify_password
 def verify_password(username, password):
@@ -62,5 +65,7 @@ def before_request():
 
 @app.route('/get-auth-token')
 @auth.login_required
+@no_cache
+@json
 def get_auth_token():
-	return jsonify({'token': g.user.generate_auth_token()})
+	return {'token': g.user.generate_auth_token()}
