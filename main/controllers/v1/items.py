@@ -7,6 +7,7 @@ from main.models.orders import Order
 from main.models.items import Item
 
 from main.decorators import json
+from main.decorators import paginate
 from flask import request
 
 
@@ -23,13 +24,14 @@ def get_item(id):
 
 @api.route('/orders/<int:id>/items/', methods=['GET'])
 @json
+@paginate('items')
 def get_order_items(id):
 	""""
 		Get list of all items of a specific order identified by order id
 	"""
 	order = Order.query.get_or_404(id)
 
-	return {'items': [item.get_url() for item in order.items.all()]}
+	return order.items
 
 
 @api.route('/orders/<int:id>/items/', methods=['POST'])
