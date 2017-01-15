@@ -19,6 +19,7 @@ from flask import g
 
 from main.decorators import json
 from main.decorators import no_cache
+from main.decorators import etag
 
 
 @auth.verify_password
@@ -61,6 +62,14 @@ def unauthorized_token():
 @auth_token.login_required
 def before_request():
 	pass
+
+@api.after_request
+@etag
+def after_request(rv):
+	"""
+		Generate etag and append to the response
+	"""
+	return rv
 
 
 @app.route('/get-auth-token')
