@@ -7,15 +7,17 @@ from main.models.orders import Order
 from main.models.customers import Customer
 
 from main.decorators import json
+from main.decorators import paginate
 from flask import request
 
 @api.route('/orders/', methods=['GET'])
 @json
+@paginate('orders')
 def get_orders():
 	"""
 		Get list of all the orders
 	"""
-	return {'orders': [order.get_url() for order in Order.query.all()]}
+	return  Order.query
 
 
 @api.route('/orders/<int:id>', methods=['GET'])
@@ -56,12 +58,13 @@ def delete_order(id):
 
 @api.route('/customers/<int:id>/orders/', methods=['GET'])
 @json
+@paginate('orders')
 def get_customer_orders(id):
 	"""
 		Get list of all the orders or a specific customer identified by customer id
 	"""
 	customer = Customer.query.get_or_404(id)
-	return {'orders': [order.get_url() for order in customer.orders.all()]}
+	return customer.orders
 
 
 @api.route('/customers/<int:id>/orders/', methods=['POST'])
