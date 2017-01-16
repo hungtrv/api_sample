@@ -2,6 +2,7 @@ import logging
 
 from flask import Flask
 from flask import Blueprint
+from flask import g
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
@@ -32,3 +33,9 @@ _register_subpackages()
 # Register blue print at last when all the code for blue print is imported
 from main.controllers.v1 import api
 app.register_blueprint(api, url_prefix='/v1')
+
+@app.after_request
+def after_request(rv):
+	headers = getattr(g, 'headers', {})
+	rv.headers.extend(headers)
+	return rv
