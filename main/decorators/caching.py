@@ -31,11 +31,13 @@ def etag(f):
 	"""
 	@functools.wraps(f)
 	def wrapped(*args, **kwargs):
-		# Only support HEAD and GET requests
-		assert request.method in ['GET', 'HEAD'], '@etag is only supported in GET or HEAD requests'
-
 		rv = f(*args, **kwargs)
 		rv = make_response(rv)
+
+		# Only support HEAD and GET requests
+		#assert request.method in ['GET', 'HEAD'], '@etag is only supported in GET or HEAD requests'
+		if request.method in ['GET', 'HEAD']:
+			return rv
 
 		# Make no change to responses with status code different than 200
 		if (rv.status_code != 200):
@@ -65,11 +67,13 @@ def etag(f):
 			etag_list = [tag.strip() for tag in if_none_match.split(',')]
 			if etag in etag_list or '*' in etag_list:
 				response = jsonify({
-
+						'status': 304,
+						'error': 'not modified',
+						'message': 'resource not modified'
 					})
 				response.status_code = 304
 				return make_response()
-				
+
 		# Return response 
 		return rv
 	return wrapped
