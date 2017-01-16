@@ -27,7 +27,7 @@ class MemRateLimit(object):
 		if key in self.counters:
 			self.counters[key]['hits'] += 1
 		else:
-			self.counters = {'hits':1, 'reset': end_period}
+			self.counters[key] = {'hits':1, 'reset': end_period}
 
 		allow = True
 		remaining = limit - self.counters[key]['hits']
