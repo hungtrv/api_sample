@@ -31,4 +31,4 @@ _configs = {
 	'gae_development_migration': _GaeDevelopmentMigrationConfig
 }
 
-config = _configs[os.getenv('ENVINRONMENT', 'development')]
+config = _configs[os.getenv('ENVIRONMENT', 'development')]
