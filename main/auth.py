@@ -60,6 +60,7 @@ def unauthorized_token():
 
 
 @api.before_request
+@rate_limit(limit=5, period=15) # 5 requests to endpoints within 15 seconds
 @auth_token.login_required
 def before_request():
 	pass
