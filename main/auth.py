@@ -20,6 +20,7 @@ from flask import g
 from main.decorators import json
 from main.decorators import no_cache
 from main.decorators import etag
+from main.decorators import rate_limit
 
 
 @auth.verify_password
@@ -63,6 +64,7 @@ def unauthorized_token():
 def before_request():
 	pass
 
+
 @api.after_request
 @etag
 def after_request(rv):
@@ -74,6 +76,7 @@ def after_request(rv):
 
 @app.route('/get-auth-token')
 @auth.login_required
+@rate_limit(1, 600) # One call within 600 seconds
 @no_cache
 @json
 def get_auth_token():

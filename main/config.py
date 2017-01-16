@@ -7,9 +7,11 @@ test_db_dir = os.path.join(base_dir, '../db/api_test_db.sqlite')
 class _Config(object):
 	SQLALCHEMY_DATABASE_URI = "sqlite:///" + db_dir
 	SECRET_KEY = "CaptainGutt!"
+	TESTING = False
 
 class _TestConfig(_Config):
 	SQLALCHEMY_DATABASE_URI = "sqlite:///" + test_db_dir
+	TESTING = True
 
 class _DevelopmentConfig(_Config):
 	DEBUG = True
